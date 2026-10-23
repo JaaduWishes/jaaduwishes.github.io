@@ -494,7 +494,7 @@ const OFFER = { label: "Launch offer", price: "₹199", was: "₹499", note: "sa
 // Meta Pixel ID from Events Manager; empty = no tracking.
 const PIXEL_ID = "";
 // Umami Cloud website ID (cloud.umami.is → Settings → Websites); empty = no analytics.
-const UMAMI_ID = "";
+const UMAMI_ID = "f2a1fdd7-074e-4d85-a4a5-84145baae07b";
 
 if (OFFER.price) document.querySelectorAll("[data-offer]").forEach(el => {
   el.innerHTML = `🎁 ${OFFER.label}: <b>${OFFER.price}</b>${OFFER.was ? ` <s>${OFFER.was}</s>` : ""}${OFFER.note ? ` · ${OFFER.note}` : ""}`;
