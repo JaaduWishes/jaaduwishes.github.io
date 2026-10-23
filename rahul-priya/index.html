@@ -6,7 +6,7 @@
 <title>Ek Nayi Subah · Priya ❤️</title>
 <meta name="description" content="Rahul ne samundar se Priya ke liye kuch bheja hai…">
 <meta property="og:title" content="Priya, samundar ne tumhare liye kuch bheja hai 🌊">
-<meta property="og:description" content="Ek nayi subah · Happy Anniversary">
+<meta property="og:description" content="Ek nayi subah · To my love">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jaaduwishes.github.io/rahul-priya/">
 <meta property="og:image" content="https://jaaduwishes.github.io/rahul-priya/og.jpg">
@@ -188,7 +188,7 @@ body { font-family: var(--f-serif); }
 
 <!-- 2 -->
 <section class="scene" id="s-dawn" aria-label="A new dawn">
-  <h1 class="title reveal"><span class="t1">Ek Nayi Subah</span><span class="t2">Happy Anniversary, Priya</span></h1>
+  <h1 class="title reveal"><span class="t1">Ek Nayi Subah</span><span class="t2">To my love, Priya</span></h1>
   <p class="sub reveal">a new journey begins ☀️</p>
   <div class="reveal"><button class="btn" data-go="s-walk" type="button">Chalo, saath chalein 👣</button></div>
 </section>
@@ -237,8 +237,8 @@ body { font-family: var(--f-serif); }
 <div id="sandCta"><button class="btn" data-go="s-finale" type="button">Ek wish chhodo 🏮</button></div>
 
 <!-- 7 -->
-<section class="scene" id="s-finale" aria-label="Happy Anniversary">
-  <h2 class="finale-h">Happy Anniversary</h2>
+<section class="scene" id="s-finale" aria-label="To my love">
+  <h2 class="finale-h">To my love</h2>
   <p class="finale-s">Har nayi subah, tumhare saath.<br><span class="from">— Rahul</span></p>
   <p class="hint">screen pe tap karo, aur lanterns chhodo 🏮</p>
   <div class="row">
@@ -247,7 +247,7 @@ body { font-family: var(--f-serif); }
   </div>
   <p class="madeby">Made with ✨ <a href="https://jaaduwishes.github.io/" target="_blank" rel="noopener">Jaadu Wishes</a></p>
 </section>
-<p class="credit" id="credit" hidden>Music: “Beautiful Romantic Piano” by UNIVERSFIELD (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>) · Waves: jackmichaelking (CC0)</p>
+<p class="credit" id="credit" hidden>Song: “New Beginning Together” · Waves: jackmichaelking (CC0)</p>
 
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-card">
@@ -368,7 +368,7 @@ function startSound() {
   if (started) return; started = true;
   music.volume = 0; waves.volume = 0;
   music.play().catch(() => {}); waves.play().catch(() => {});
-  fade(music, .7, 2500); fade(waves, .35, 2500);
+  music.currentTime = 0; fade(music, .85, 2000); fade(waves, .18, 2500);
   $("mute").hidden = false;
 }
 $("mute").addEventListener("click", () => {
@@ -387,7 +387,7 @@ function show(id) {
   $("credit").hidden = id !== "s-finale";
   $("names").style.display = id === "s-sand" ? "" : "none";
   $("sandCta").style.display = id === "s-sand" ? "" : "none";
-  if (id !== "s-video") { $("vid").pause(); if (started && !muted) fade(music, .7); }
+  if (id !== "s-video") { $("vid").pause(); if (started && !muted) fade(music, .85); }
   if (id === "s-walk") step();
   if (id === "s-video") { fade(music, .12, 800); $("vid").currentTime = 0; $("vid").play().catch(() => {}); }
   if (id === "s-letter") inkLetter();
@@ -451,7 +451,7 @@ $("s-walk").addEventListener("pointerup", (e) => { if (sx0 !== null && Math.abs(
 [...MEMS.map((m) => m.src)].forEach((s) => { const i = new Image(); i.src = s; });
 
 // 4: the video ends → straight to the letter's button glow
-$("vid").addEventListener("ended", () => { if (started && !muted) fade(music, .7); });
+$("vid").addEventListener("ended", () => { if (started && !muted) fade(music, .85); });
 
 // 5: the letter inks itself line by line
 let inked = false;
