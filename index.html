@@ -249,7 +249,7 @@ footer .brand { font-size: 24px; }
 <header>
   <div class="wrap">
     <a class="brand" href="#">Jaadu Wishes</a>
-    <nav class="nav"><a class="ig" href="https://www.instagram.com/jaaduwishes/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a><a class="nav-cta" href="#order">Banwao ✨</a></nav>
+    <nav class="nav"><a class="ig" href="https://www.instagram.com/jaaduwishes/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a><a class="nav-cta" href="#order" data-umami-event="cta" data-umami-event-at="nav">Banwao ✨</a></nav>
   </div>
 </header>
 
@@ -261,7 +261,7 @@ footer .brand { font-size: 24px; }
       <p class="lede">Yahin website pe ek voice note mein dil ki baat bolo, photos daalo, aur bhej do. Hum bana denge ek magical surprise: tap karo, gubbare phootein, aur unka naam chamke. Chaho to aapke shabdon pe <b>apna gaana</b> bhi.</p>
       <p class="offer" data-offer hidden></p>
       <div class="btns">
-        <a class="btn gold" href="#order">🎙️ Bolo aur banwao</a>
+        <a class="btn gold" href="#order" data-umami-event="cta" data-umami-event-at="hero">🎙️ Bolo aur banwao</a>
         <a class="btn ghost" href="#sample">Asli surprises dekho</a>
       </div>
       <p class="trust">Hindi · English · Hinglish · sirf phone chahiye · 2 minute</p>
@@ -344,7 +344,7 @@ footer .brand { font-size: 24px; }
           <li>Unka apna gaana</li>
           <li>Insta / WhatsApp Story video</li>
         </ul>
-        <div class="btns"><a class="btn gold" href="divya/" target="_blank" rel="noopener">Pura surprise kholo ↗</a></div>
+        <div class="btns"><a class="btn gold" href="divya/" target="_blank" rel="noopener" data-umami-event="sample-open" data-umami-event-which="divya">Pura surprise kholo ↗</a></div>
       </div>
     </div>
 
@@ -365,7 +365,7 @@ footer .brand { font-size: 24px; }
           <li>Ret pe naam, jo lehron se nahi mit-ta</li>
           <li>Rahul ki chitthi ka gaana 🎵</li>
         </ul>
-        <div class="btns"><a class="btn gold" href="rahul-priya/" target="_blank" rel="noopener">Pura surprise kholo ↗</a></div>
+        <div class="btns"><a class="btn gold" href="rahul-priya/" target="_blank" rel="noopener" data-umami-event="sample-open" data-umami-event-which="rahul-priya">Pura surprise kholo ↗</a></div>
       </div>
     </div>
   </section>
@@ -478,12 +478,12 @@ footer .brand { font-size: 24px; }
   </section>
 </main>
 
-<div class="sticky" id="sticky"><a class="btn gold" href="#order">🎙️ Bolo aur banwao</a></div>
+<div class="sticky" id="sticky"><a class="btn gold" href="#order" data-umami-event="cta" data-umami-event-at="sticky">🎙️ Bolo aur banwao</a></div>
 
 <footer>
   <div class="brand">Jaadu Wishes</div>
   <p>Har mauke pe ek chhota sa jaadu ✨</p>
-  <p class="foot-links"><a href="https://www.instagram.com/jaaduwishes/" target="_blank" rel="noopener">Instagram</a> · <a href="https://wa.me/917300281228" target="_blank" rel="noopener">WhatsApp</a> · <a href="privacy.html">Privacy</a></p>
+  <p class="foot-links"><a href="https://www.instagram.com/jaaduwishes/" target="_blank" rel="noopener">Instagram</a> · <a href="https://wa.me/917300281228" target="_blank" rel="noopener" data-umami-event="footer-whatsapp">WhatsApp</a> · <a href="privacy.html">Privacy</a></p>
 </footer>
 
 <script>
@@ -493,12 +493,35 @@ const ORDER_WA = "917300281228";
 const OFFER = { label: "Launch offer", price: "₹199", was: "₹499", note: "same day delivery" };
 // Meta Pixel ID from Events Manager; empty = no tracking.
 const PIXEL_ID = "";
+// Umami Cloud website ID (cloud.umami.is → Settings → Websites); empty = no analytics.
+const UMAMI_ID = "";
 
 if (OFFER.price) document.querySelectorAll("[data-offer]").forEach(el => {
   el.innerHTML = `🎁 ${OFFER.label}: <b>${OFFER.price}</b>${OFFER.was ? ` <s>${OFFER.was}</s>` : ""}${OFFER.note ? ` · ${OFFER.note}` : ""}`;
   el.hidden = false;
 });
 function track(ev, data) { if (window.fbq) fbq("track", ev, data); }
+
+// Funnel analytics. Instagram/Facebook in-app browsers send no referrer, so tag those
+// visits as a source before Umami reads the URL. Events fired before the script loads are queued.
+const umQueue = [];
+function step(name, data) {
+  if (!UMAMI_ID) return;
+  window.umami ? umami.track(name, data) : umQueue.push([name, data]);
+}
+function stepOnce(name, data) { if (!stepOnce[name]) { stepOnce[name] = 1; step(name, data); } }
+if (UMAMI_ID) {
+  const q = new URLSearchParams(location.search), ua = navigator.userAgent;
+  const app = /Instagram/.test(ua) ? "instagram" : /FBAN|FBAV|FB_IAB/.test(ua) ? "facebook" : "";
+  if (app && !q.has("utm_source")) {
+    q.set("utm_source", app); q.set("utm_medium", "inapp");
+    history.replaceState(null, "", `${location.pathname}?${q}${location.hash}`);
+  }
+  const sc = document.createElement("script");
+  sc.defer = true; sc.src = "https://cloud.umami.is/script.js"; sc.dataset.websiteId = UMAMI_ID;
+  sc.onload = () => { while (umQueue.length) umami.track(...umQueue.shift()); };
+  document.head.appendChild(sc);
+}
 if (PIXEL_ID) {
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
   fbq("init", PIXEL_ID); fbq("track", "PageView");
@@ -593,6 +616,7 @@ function renderDemo() {
   $("hbC").textContent = o.c;
 }
 function openSurprise() {
+  stepOnce("demo-open");
   renderDemo();
   s1.classList.add("off"); s2.classList.remove("off");
   confetti(mini, screen.clientWidth / 2, screen.clientHeight / 2, 120);
@@ -632,6 +656,10 @@ for (const k of occKeys) {
   $("occGrid").appendChild(tile);
 }
 setOcc("birthday", false);
+
+for (const id of ["who", "from"]) $(id).addEventListener("change", () => {
+  if ($("who").value.trim() && $("from").value.trim()) stepOnce("names-filled", { occasion: OCC[occ].label });
+});
 
 // "When" toggle.
 let when = "Aaj hi";
@@ -674,6 +702,7 @@ $("mic").addEventListener("click", async () => {
     voice = new File(chunks, `voice-note-${name}.${ext}`, { type: type.split(";")[0] });
     $("playback").src = URL.createObjectURL(voice);
     showRec("done");
+    stepOnce("voice-recorded", { secs: voiceSecs });
   };
   recorder.start();
   voiceSecs = 0; $("timer").textContent = "0:00";
@@ -694,6 +723,7 @@ $("typeToggle").addEventListener("click", () => { $("typedWrap").hidden = false;
 let pics = [];
 $("pics").addEventListener("change", e => {
   pics = pics.concat([...e.target.files]).slice(0, 30);
+  stepOnce("photos-added", { count: pics.length });
   e.target.value = "";
   const t = $("thumbs"); t.innerHTML = "";
   pics.slice(0, 6).forEach(f => {
@@ -734,6 +764,8 @@ $("send").addEventListener("click", () => {
   if (recorder && recorder.state === "recording") { err.textContent = "Pehle recording rok do (■ Ho gaya)."; err.hidden = false; return; }
   err.hidden = true;
   track("Lead", { content_name: OCC[occ].label });
+  step("whatsapp-send", { occasion: OCC[occ].label, when, voice: !!voice, photos: pics.length,
+    song: $("songAddon").getAttribute("aria-pressed") === "true" });
   window.open(`https://wa.me/${ORDER_WA}?text=${encodeURIComponent(orderText())}`, "_blank", "noopener");
   const f = files();
   $("wizard").hidden = true;
@@ -750,6 +782,7 @@ $("shareFiles").addEventListener("click", async () => {
   if (canShareFiles(f)) {
     try {
       await navigator.share({ files: f, title: "Jaadu Wishes order" });
+      step("files-shared", { count: f.length });
       $("done").hidden = true; $("thanks").hidden = false;
     } catch (e) {
       if (e.name !== "AbortError") $("shareTip").textContent = "Share nahi hua. Dobara try karo, ya seedha WhatsApp chat mein attach kar do.";
@@ -760,6 +793,7 @@ $("shareFiles").addEventListener("click", async () => {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(file); a.download = file.name; a.click();
   }
+  step("files-saved", { count: f.length });
 });
 function newOrder() {
   voice = null; pics = []; $("thumbs").innerHTML = ""; $("typed").value = "";
@@ -776,18 +810,22 @@ addEventListener("scroll", () => {
   sticky.classList.toggle("show", scrollY > 300 && r.top > innerHeight);
 }, { passive: true });
 
+// Funnel: the order form came on screen.
+new IntersectionObserver((ens, o) => { if (ens.some(en => en.isIntersecting)) { stepOnce("order-view"); o.disconnect(); } }, { threshold: .25 }).observe($("order"));
+
 // Only play each sample clip while it's on screen.
 const clipObs = new IntersectionObserver(ens => ens.forEach(en => { en.isIntersecting && !reduce ? en.target.play().catch(() => {}) : en.target.pause(); }), { threshold: .3 });
 document.querySelectorAll(".clip video").forEach(v => clipObs.observe(v));
 
 // The song sample: the disc spins while it plays.
 const songA = $("songSample"), disc = $("disc");
-disc.addEventListener("click", () => { songA.paused ? songA.play().catch(() => {}) : songA.pause(); });
+disc.addEventListener("click", () => { stepOnce("song-sample-play"); songA.paused ? songA.play().catch(() => {}) : songA.pause(); });
 songA.addEventListener("play", () => { disc.classList.add("playing"); disc.setAttribute("aria-label", "Pause the song sample"); });
 for (const ev of ["pause", "ended"]) songA.addEventListener(ev, () => { disc.classList.remove("playing"); disc.setAttribute("aria-label", "Play the song sample"); });
 
 $("songAddon").addEventListener("click", e => {
   const b = e.currentTarget; b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
+  if (b.getAttribute("aria-pressed") === "true") stepOnce("song-addon");
 });
 </script>
 </body>
