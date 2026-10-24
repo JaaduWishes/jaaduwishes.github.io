@@ -530,7 +530,10 @@ const OFFER_IN = { label: "Launch offer", price: "₹199", was: "₹499", note: 
 const OFFER_ABROAD = { label: "Launch offer", price: "$9", was: "$19", note: "same day delivery" };
 const TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { return ""; } })();
 const ABROAD = !!TZ && !/^Asia\/(Kolkata|Calcutta)$/.test(TZ);
-const OFFER = ABROAD ? OFFER_ABROAD : OFFER_IN;
+// Visitors who come from the link at the end of someone's surprise get ₹50 off (India price).
+const REF = (() => { try { const q = new URLSearchParams(location.search); return q.get("utm_source") === "surprise" ? (q.get("utm_medium") || "surprise") : ""; } catch { return ""; } })();
+const OFFER_REF = { label: "Aapke liye", price: "₹149", was: "₹199", note: "₹50 off, surprise dekh ke aaye ho 💛" };
+const OFFER = ABROAD ? OFFER_ABROAD : REF ? OFFER_REF : OFFER_IN;
 // Seasonal order cutoff shown in the top bar; the bar hides once it has passed.
 const DEADLINE = { at: "2026-11-06T23:59:00+05:30", label: "🪔 Diwali orders 6 Nov tak" };
 // Meta Pixel ID from Events Manager; empty = no tracking.
@@ -547,7 +550,7 @@ const UMAMI_ID = "f2a1fdd7-074e-4d85-a4a5-84145baae07b";
   }
 }
 if (OFFER.price) document.querySelectorAll("[data-price-faq]").forEach(el => {
-  el.textContent = `Launch offer: sirf ${OFFER.price} (${OFFER.was} ki jagah). Magic link page aur 15 second ki story video, dono shaamil.`;
+  el.textContent = `${OFFER.label}: sirf ${OFFER.price} (${OFFER.was} ki jagah). Magic link page aur 15 second ki story video, dono shaamil.`;
 });
 if (ABROAD) document.querySelectorAll("[data-pay-faq]").forEach(el => {
   el.textContent = "Preview pasand aane ke baad. India ke bahar se ho toh payment ka tareeka (UPI ya international link) WhatsApp pe bata denge.";
@@ -801,6 +804,7 @@ function orderText() {
     `Kab tak: ${when}`,
   ];
   if (ABROAD) lines.push(`Main India ke bahar se hoon (${TZ}) · ${OFFER.price} offer`);
+  else if (REF) lines.push(`Referral: ${REF} ka surprise dekh ke aaya/aayi · ₹50 off (${OFFER.price})`);
   if (voice) lines.push(`Voice note: ${fmt(voiceSecs)} (agle message mein bhej raha/rahi hoon)`);
   if (pics.length) lines.push(`Photos/videos: ${pics.length} (agle message mein)`);
   if ($("songAddon").getAttribute("aria-pressed") === "true") lines.push("Add-on: 🎵 apna gaana bhi chahiye");
