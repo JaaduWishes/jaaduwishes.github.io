@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roshni Ka Khat · Maa 🪔</title>
+<meta name="description" content="Aarav ne Maa ke liye Diwali ki roshni bheji hai…">
+<meta property="og:title" content="Maa, aapke liye ek Roshni Ka Khat 🪔">
+<meta property="og:description" content="Ek phuljhadi, paanch diye, ek chitthi · Happy Diwali">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jaaduwishes.github.io/roshni/">
+<meta property="og:image" content="https://jaaduwishes.github.io/roshni/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jaaduwishes.github.io/roshni/og.jpg">
+<meta name="theme-color" content="#0a0616">
+<link rel="icon" href="icon.jpg">
+<link rel="apple-touch-icon" href="icon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Parisienne&family=Kalam:wght@400;700&display=swap">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="f2a1fdd7-074e-4d85-a4a5-84145baae07b"></script>
+<style>
+/* One night sky (canvas) for sparks and fireworks; scenes are layers on top of it. */
+:root {
+  --ink: #fff4e4; --muted: #f0d6bd; --gold: #ffd27a; --flame: #ffb347; --deep: #0a0616;
+  --paper: #fbf1dc; --paper-ink: #4a2a18; --rose: #ff6fa3;
+  --f-script: "Parisienne", cursive; --f-hand: "Kalam", cursive;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--deep); color: var(--ink); overflow: hidden; -webkit-tap-highlight-color: transparent; }
+body { font-family: var(--f-hand); }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+#sky { position: fixed; inset: 0; width: 100%; height: 100%; display: block;
+  background: radial-gradient(120% 70% at 50% 110%, #2a1030 0%, #140a26 45%, var(--deep) 80%); }
+#bg { position: fixed; inset: 0; background: url(sky.jpg) center bottom / cover no-repeat; opacity: 0; transition: opacity 2.4s ease;
+  -webkit-mask-image: linear-gradient(transparent 30%, #000 75%); mask-image: linear-gradient(transparent 30%, #000 75%); }
+#bg.on { opacity: .55; }
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+
+.scene { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: max(24px, env(safe-area-inset-top)) 22px max(24px, env(safe-area-inset-bottom)); text-align: center;
+  opacity: 0; visibility: hidden; transition: opacity .9s ease, visibility 0s .9s; z-index: 2; }
+.scene.on { opacity: 1; visibility: visible; transition: opacity .9s ease; }
+
+.whisper { font-size: clamp(22px, 6vw, 30px); line-height: 1.4; color: var(--muted); max-width: 18ch; margin: 0 0 30px; }
+.whisper b { color: var(--gold); font-weight: 700; }
+.btn { border: 0; border-radius: 999px; padding: 14px 26px; font-size: 19px; font-weight: 700;
+  background: linear-gradient(180deg, #ffe29a, #f5a623); color: #3b1d05; box-shadow: 0 0 0 1px #ffd27a55, 0 8px 30px #f5a62355; }
+.btn.ghost { background: transparent; color: var(--gold); box-shadow: inset 0 0 0 1.5px #ffd27a88; font-weight: 400; }
+.pulse { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { transform: scale(1.05); box-shadow: 0 0 0 1px #ffd27a77, 0 8px 44px #f5a62399; } }
+
+/* Intro: an unlit sparkler waiting to be lit. */
+.wand { width: 6px; height: 120px; margin: 0 auto 26px; border-radius: 3px; background: linear-gradient(#9a9a9a 0 62%, #5b3a1e 62%); position: relative; transform: rotate(18deg); }
+.wand::before { content: ""; position: absolute; left: 50%; top: -4px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%;
+  background: radial-gradient(#fff, #ffd27a 40%, transparent 70%); animation: ember 1.4s ease-in-out infinite; }
+@keyframes ember { 50% { opacity: .35; transform: scale(.7); } }
+
+/* Sparkler writing. */
+#s-write .after { position: absolute; left: 0; right: 0; bottom: max(64px, 12vh); opacity: 0; transition: opacity 1s ease; }
+#s-write .after.on { opacity: 1; }
+#s-write .after p { margin: 0 0 18px; font-size: clamp(26px, 7vw, 36px); color: var(--gold); text-shadow: 0 0 18px #ff9f1c88; }
+
+/* Rangoli with five diyas. */
+#s-rangoli h2 { font-weight: 400; font-size: clamp(22px, 6vw, 28px); margin: 0 0 4px; color: var(--muted); }
+#s-rangoli .count { font-size: 16px; color: var(--gold); margin: 0 0 8px; min-height: 1.4em; }
+.board { position: relative; width: min(92vw, 52vh, 440px); aspect-ratio: 1; }
+.board svg.rangoli { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 0 10px #ff3f8b33); transition: filter 1.2s ease; }
+.board.glow svg.rangoli { filter: drop-shadow(0 0 22px #ffb34799) brightness(1.25); }
+.diya { position: absolute; width: 22%; aspect-ratio: 1.3; transform: translate(-50%, -50%); border: 0; background: none; padding: 0; }
+.diya svg { position: absolute; left: 0; bottom: 0; width: 100%; }
+.diya .flame { position: absolute; left: 50%; bottom: 52%; width: 22%; aspect-ratio: .55; margin-left: -11%; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(60% 45% at 50% 72%, #fff 0 25%, #ffe08a 45%, #ff9a1f 75%, transparent 100%);
+  transform-origin: 50% 90%; transform: scale(0); transition: transform .5s cubic-bezier(.3, 1.6, .5, 1); filter: blur(.3px); }
+.diya.lit .flame { transform: scale(1); animation: flicker 1.1s ease-in-out infinite alternate .5s; }
+.diya .halo { position: absolute; left: 50%; bottom: 40%; width: 260%; aspect-ratio: 1; transform: translate(-50%, 50%) scale(.2); border-radius: 50%;
+  background: radial-gradient(#ffb34766, transparent 65%); opacity: 0; transition: opacity .8s, transform .8s; pointer-events: none; }
+.diya.lit .halo { opacity: 1; transform: translate(-50%, 50%) scale(1); }
+.diya:not(.lit)::after { content: ""; position: absolute; left: 50%; top: 18%; width: 46%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  box-shadow: 0 0 0 2px #ffd27a99; animation: ring 1.8s ease-out infinite; }
+@keyframes ring { from { transform: translate(-50%, -50%) scale(.5); opacity: 1; } to { transform: translate(-50%, -50%) scale(1.6); opacity: 0; } }
+@keyframes flicker { 0% { transform: scale(1) rotate(-2deg); } 40% { transform: scale(1.06, .95) rotate(2deg); } 100% { transform: scale(.96, 1.05) rotate(-1deg); } }
+.diya.big { width: 30%; }
+.diya.big:not(.lit)::after { display: none; }
+
+/* Memory card. */
+#memory { position: fixed; inset: 0; z-index: 8; display: grid; place-items: center; padding: 22px; background: #0a0616cc;
+  opacity: 0; visibility: hidden; transition: opacity .5s, visibility 0s .5s; }
+#memory.on { opacity: 1; visibility: visible; transition: opacity .5s; }
+.polaroid { width: min(82vw, 46vh, 360px); background: var(--paper); color: var(--paper-ink); padding: 12px 12px 16px; border-radius: 4px;
+  box-shadow: 0 20px 60px #000a, 0 0 40px #ffb34733; transform: rotate(-2deg) scale(.85); transition: transform .6s cubic-bezier(.2, 1.4, .4, 1); }
+#memory.on .polaroid { transform: rotate(-2deg) scale(1); }
+.polaroid img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: #2a1a10; }
+.polaroid p { margin: 12px 4px 4px; font-size: clamp(17px, 4.6vw, 21px); line-height: 1.35; }
+#memory > div { text-align: center; }
+#memory .btn { margin-top: 18px; }
+
+/* Finale. */
+#s-finale { justify-content: flex-start; padding-top: max(9vh, env(safe-area-inset-top)); pointer-events: none; }
+#s-finale > * { pointer-events: auto; }
+#s-finale h1 { margin: 0; font-family: var(--f-script); font-weight: 400; font-size: clamp(52px, 15vw, 84px); line-height: 1.05; color: #fff3d6;
+  text-shadow: 0 0 12px #ffcf6b, 0 0 36px #ff9f1c; }
+#s-finale .sub { margin: 6px 0 0; font-size: 18px; color: var(--muted); }
+.letter { margin-top: auto; width: min(100%, 420px); background: #fbf1dcf2; color: var(--paper-ink); border-radius: 14px; padding: 18px 20px 14px; text-align: left;
+  font-size: clamp(16px, 4.4vw, 19px); line-height: 1.5; box-shadow: 0 20px 60px #000a; transform: translateY(40px); opacity: 0; transition: transform 1s ease, opacity 1s ease; }
+.letter.on { transform: none; opacity: 1; }
+.letter p { margin: 0 0 8px; }
+.letter .sign { text-align: right; font-family: var(--f-script); font-size: 30px; margin: 0; color: #8a3b12; }
+.row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+.row .btn { padding: 11px 18px; font-size: 16px; }
+.tip { font-size: 14px; color: var(--muted); opacity: .8; margin: 10px 0 0; }
+.made { font-size: 13px; color: var(--muted); opacity: .75; margin: 12px 0 0; }
+.made a { color: var(--gold); }
+.made summary { cursor: pointer; display: inline; }
+.made details[open] { text-align: left; max-width: 420px; margin: 6px auto 0; }
+.made details p { margin: 4px 0; }
+
+#mute { position: fixed; top: max(12px, env(safe-area-inset-top)); right: 12px; z-index: 9; width: 40px; height: 40px; border-radius: 50%;
+  border: 0; background: #ffffff14; font-size: 18px; display: none; }
+#mute.on { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse, .wand::before, .diya.lit .flame, .diya:not(.lit)::after { animation: none; }
+}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div id="bg"></div>
+<canvas id="fx"></canvas>
+<button id="mute" type="button" aria-label="Mute">🔊</button>
+
+<section class="scene on" id="s-intro">
+  <div class="wand" aria-hidden="true"></div>
+  <p class="whisper" id="introLine"></p>
+  <button class="btn pulse" id="lightBtn" type="button">🎇 Phuljhadi jalao</button>
+</section>
+
+<section class="scene" id="s-write" aria-live="polite">
+  <div class="after" id="afterWrite">
+    <p>Happy Diwali 🪔</p>
+    <button class="btn pulse" id="toRangoli" type="button">Ab diye jalao ✨</button>
+  </div>
+</section>
+
+<section class="scene" id="s-rangoli">
+  <h2>Har diya ek yaad hai</h2>
+  <p class="count" id="count">Ek ek karke jalao 🪔</p>
+  <div class="board" id="board"></div>
+</section>
+
+<div id="memory" role="dialog" aria-modal="true" aria-label="Yaad">
+  <div>
+    <div class="polaroid"><img id="memImg" alt=""><p id="memText"></p></div>
+    <button class="btn" id="memNext" type="button">Aage ✨</button>
+  </div>
+</div>
+
+<section class="scene" id="s-finale">
+  <h1 id="finaleTitle"></h1>
+  <p class="sub">Is Diwali, roshni aapke naam 🪔</p>
+  <div class="letter" id="letter"></div>
+  <p class="tip">Aasmaan pe tap karo, aur pataakhe 🎆</p>
+  <div class="row">
+    <button class="btn ghost" id="replay" type="button">↺ Phir se</button>
+  </div>
+  <div class="made">
+    ✨ Ye ek <a href="../" data-umami-event="sample-cta" data-umami-event-which="roshni">Jaadu Wishes</a> sample hai · apne ghar walon ke liye banwao
+    <details><summary>· Photo credits</summary><div id="credits"></div></details>
+  </div>
+</section>
+
+<script>
+// Who it's from and for. Each memory pairs a photo in p/ with one line.
+const TO = "Maa", FROM = "Aarav";
+const INTRO = `${TO}, is baar ghar nahi aa paaya…<br>par <b>roshni</b> bhej di hai.`;
+const MEMORIES = [
+  { img: "p/1.jpg", text: "Har saal aap aangan mein rangoli banati thi… aur main beech mein pair rakh deta tha 😅" },
+  { img: "p/2.jpg", text: "Aapki aarti ki thali. Uski khushboo se hi pata chal jaata tha ki Diwali aa gayi." },
+  { img: "p/3.jpg", text: "Chakli, karanji, laddoo… “bas ek aur” bolke aap chaar de deti thi 🥹" },
+  { img: "p/4.jpg", text: "Meri pehli phuljhadi. Aapne haath pakad ke jalwayi thi, yaad hai?" },
+  { img: "p/5.jpg", text: "Chhat pe diyon ki line… is baar ek diya mere naam ka bhi jalana, Maa." },
+];
+const LETTER = [
+  `${TO},`,
+  "Is saal Diwali pe ghar nahi aa paaya, iska dukh hai. Par jitni roshni aapne meri zindagi mein ki hai, uska ek chhota sa hissa ye khat bhej raha hai.",
+  "Laddoo mere hisse ke bacha ke rakhna. Agli Diwali, chhat pe saath diye jalayenge. 🪔",
+];
+const CREDITS = [
+  ["Rangoli", "“The Rangoli of Lights” by Subharnab Majumdar, CC BY 2.0"],
+  ["Thali", "“Hindu pooja thali” by suketdedhia, CC0"],
+  ["Faral", "“Diwali sweets in Maharshtra” by Savvywriter, CC BY-SA 4.0"],
+  ["Phuljhadi", "“Happy Diwali - A kid playing with the Sparklers” by Hari K Patibanda, CC BY 2.0"],
+  ["Diye", "“Row of lights at a house in Nizampet during Diwali” by Adityamadhav83, CC BY-SA 4.0"],
+  ["Aasmaan", "“Fireworks Diwali Chennai India November 2013” by Sriram Jagannathan, CC BY 2.0"],
+  ["Music", "“Beautiful Indian Music” by CHASMA, CC BY 3.0"],
+];
+
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+$("introLine").innerHTML = INTRO;
+$("finaleTitle").textContent = `Happy Diwali, ${TO}`;
+$("letter").innerHTML = LETTER.map(p => `<p>${p}</p>`).join("") + `<p class="sign">— ${FROM}</p>`;
+$("credits").innerHTML = CREDITS.map(([k, v]) => `<p><b>${k}:</b> ${v} (Wikimedia Commons / Jamendo)</p>`).join("");
+MEMORIES.forEach(m => { new Image().src = m.img; });
+const track = (name, data) => window.umami && umami.track(name, data);
+
+function show(id) { document.querySelectorAll(".scene").forEach(s => s.classList.toggle("on", s.id === id)); }
+
+// Sound: music starts on the first tap; the sparkler crackles while it writes.
+const music = new Audio("a/music.m4a"); music.loop = true; music.volume = .55;
+const sfx = n => { if (muted) return; const a = new Audio(`a/${n}.mp3`); a.volume = n === "fc" ? .5 : .7; a.play().catch(() => {}); return a; };
+let muted = false;
+$("mute").addEventListener("click", () => {
+  muted = !muted; music.muted = muted; $("mute").textContent = muted ? "🔇" : "🔊";
+});
+
+// Canvases. #sky holds the stars; #fx holds sparks, the written name and fireworks.
+const sky = $("sky"), fx = $("fx"), sc = sky.getContext("2d"), c = fx.getContext("2d");
+let W, H, dpr, stars = [];
+function size() {
+  dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  for (const cv of [sky, fx]) { cv.width = W * dpr; cv.height = H * dpr; }
+  sc.setTransform(dpr, 0, 0, dpr, 0, 0); c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  stars = Array.from({ length: Math.round(W * H / 5000) }, () => ({ x: Math.random() * W, y: Math.random() * H * .75, r: Math.random() * 1.2 + .2, p: Math.random() * 6 }));
+  if (word) layoutWord();
+}
+function drawSky(t) {
+  sc.clearRect(0, 0, W, H);
+  for (const s of stars) { sc.globalAlpha = .35 + .35 * Math.sin(t / 900 + s.p); sc.fillStyle = "#fff"; sc.beginPath(); sc.arc(s.x, s.y, s.r, 0, 7); sc.fill(); }
+  sc.globalAlpha = 1;
+}
+
+// Particles: sparkler sparks (short streaks) and firework embers (fall and fade).
+const parts = [];
+function spark(x, y, n, opt = {}) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = (opt.speed || 3) * (.3 + Math.random());
+    parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 0, max: (opt.life || 22) * (.6 + Math.random() * .8),
+      hue: opt.hue ?? 42 + Math.random() * 12, g: opt.g ?? .06, drag: opt.drag ?? .96, w: opt.w || 1.4 });
+  }
+}
+function drawParts() {
+  c.globalCompositeOperation = "lighter";
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i], k = 1 - p.life / p.max;
+    if (k <= 0) { parts.splice(i, 1); continue; }
+    const px = p.x, py = p.y;
+    p.vx *= p.drag; p.vy = p.vy * p.drag + p.g; p.x += p.vx; p.y += p.vy; p.life++;
+    c.strokeStyle = `hsla(${p.hue}, 100%, ${65 + 30 * k}%, ${Math.sqrt(k)})`; c.lineWidth = p.w * Math.sqrt(k) + .5;
+    c.beginPath(); c.moveTo(px, py); c.lineTo(p.x, p.y); c.stroke();
+  }
+  for (let i = flashes.length - 1; i >= 0; i--) {
+    const f = flashes[i], k = 1 - f.life++ / 10;
+    if (k <= 0) { flashes.splice(i, 1); continue; }
+    const g = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, 90);
+    g.addColorStop(0, `hsla(${f.hue}, 100%, 92%, ${k})`); g.addColorStop(1, "transparent");
+    c.fillStyle = g; c.beginPath(); c.arc(f.x, f.y, 90, 0, 7); c.fill();
+  }
+  c.globalCompositeOperation = "source-over";
+}
+const flashes = [];
+
+// Sparkler writing: the name is drawn off-screen, then revealed left to right while the
+// sparkler head scribbles up and down through the ink at the reveal edge.
+let word = null, writeT0 = 0;
+const WRITE_MS = 2600;
+function layoutWord() {
+  const fs = Math.min(W * .42, H * .26, 220);
+  const off = document.createElement("canvas"), o = off.getContext("2d");
+  o.font = `${fs}px Parisienne`;
+  const tw = Math.ceil(o.measureText(TO).width + fs * .3), th = Math.ceil(fs * 1.5);
+  off.width = tw; off.height = th;
+  o.font = `${fs}px Parisienne`; o.textBaseline = "middle"; o.fillStyle = "#fff"; o.fillText(TO, fs * .15, th / 2);
+  const d = o.getImageData(0, 0, tw, th).data, cols = [];
+  for (let x = 0; x < tw; x++) {
+    let top = -1, bot = -1;
+    for (let y = 0; y < th; y++) if (d[(y * tw + x) * 4 + 3] > 80) { if (top < 0) top = y; bot = y; }
+    cols.push(top < 0 ? null : [top, bot]);
+  }
+  const first = cols.findIndex(Boolean), last = cols.length - 1 - [...cols].reverse().findIndex(Boolean);
+  word = { off, tw, th, cols, first, last, x: (W - tw) / 2, y: H * .4 - th / 2 };
+}
+function drawWord(t) {
+  if (!word) return;
+  const k = Math.min(1, (t - writeT0) / WRITE_MS), w = word;
+  const edge = w.first + (w.last - w.first) * k;
+  c.save();
+  c.beginPath(); c.rect(w.x, w.y, edge, w.th); c.clip();
+  c.shadowColor = "#ff9f1c"; c.shadowBlur = 24;
+  c.globalAlpha = k < 1 ? 1 : .85 + .15 * Math.sin(t / 120);
+  c.drawImage(w.off, w.x, w.y);
+  c.shadowColor = "#ffe9b0"; c.shadowBlur = 6; c.drawImage(w.off, w.x, w.y);
+  c.restore();
+  if (k < 1) {
+    let col = w.cols[Math.round(edge)];
+    for (let i = 1; !col && i < 20; i++) col = w.cols[Math.round(edge) - i];
+    const [top, bot] = col || [w.th * .4, w.th * .6];
+    const hy = w.y + top + (bot - top) * (.5 + .5 * Math.sin(t / 55));
+    const hx = w.x + edge;
+    spark(hx, hy, reduce ? 2 : 9, { speed: 3.4, life: 16, g: .08 });
+    c.globalCompositeOperation = "lighter";
+    const g = c.createRadialGradient(hx, hy, 0, hx, hy, 26);
+    g.addColorStop(0, "#fffbe8"); g.addColorStop(.3, "#ffd27a"); g.addColorStop(1, "transparent");
+    c.fillStyle = g; c.beginPath(); c.arc(hx, hy, 26, 0, 7); c.fill();
+    c.globalCompositeOperation = "source-over";
+  } else if (!word.done) {
+    word.done = true; crackle && crackle.pause();
+    $("afterWrite").classList.add("on");
+    track("roshni-written");
+  }
+}
+
+// Fireworks: a rocket climbs, then bursts into a ring of embers.
+const rockets = [];
+const HUES = [42, 330, 18, 190, 280, 55];
+function launch(x, y) {
+  rockets.push({ x: x ?? W * (.2 + Math.random() * .6), y: H, ty: y ?? H * (.15 + Math.random() * .25), hue: HUES[Math.floor(Math.random() * HUES.length)] });
+}
+function drawRockets() {
+  for (let i = rockets.length - 1; i >= 0; i--) {
+    const r = rockets[i];
+    r.y -= Math.max(6, (r.y - r.ty) * .07);
+    spark(r.x, r.y, 1, { speed: .6, life: 12, hue: 40, g: .02 });
+    if (r.y - r.ty < 4) {
+      rockets.splice(i, 1); flashes.push({ x: r.x, y: r.y, hue: r.hue, life: 0 });
+      spark(r.x, r.y, reduce ? 40 : 170, { speed: 6.5, life: 75, hue: r.hue, g: .035, drag: .95, w: 3.2 });
+      spark(r.x, r.y, reduce ? 8 : 50, { speed: 2.6, life: 60, hue: 50, g: .03, drag: .95, w: 1.6 });
+      if (finaleOn) sfx("fc");
+    }
+  }
+}
+
+let finaleOn = false, autoShow = 0;
+function frame() {
+  const t = performance.now();  // same clock as writeT0
+  drawSky(t);
+  // Long-exposure trails during the finale; a clean clear otherwise.
+  if (finaleOn) { c.globalCompositeOperation = "destination-out"; c.fillStyle = "rgba(0,0,0,.16)"; c.fillRect(0, 0, W, H); c.globalCompositeOperation = "source-over"; }
+  else c.clearRect(0, 0, W, H);
+  drawWord(t);
+  drawRockets(); drawParts();
+  requestAnimationFrame(frame);
+}
+
+// Scene flow.
+let crackle = null;
+$("lightBtn").addEventListener("click", async () => {
+  music.play().catch(() => {}); $("mute").classList.add("on");
+  track("roshni-start");
+  await document.fonts.load("100px Parisienne").catch(() => {});
+  layoutWord(); word.done = false;
+  show("s-write");
+  writeT0 = performance.now();
+  crackle = sfx("sparkle"); if (crackle) crackle.loop = true;
+});
+$("toRangoli").addEventListener("click", () => {
+  word = null; show("s-rangoli"); buildBoard();
+});
+
+// The rangoli: concentric petal rings drawn as SVG, with diyas on a pentagon around it.
+function petals(n, r, len, wid, fill, rot = 0) {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const a = rot + i * 360 / n;
+    s += `<path transform="rotate(${a} 50 50)" d="M50 ${50 - r} q ${wid} ${-len / 2} 0 ${-len} q ${-wid} ${len / 2} 0 ${len}z" fill="${fill}"/>`;
+  }
+  return s;
+}
+function dots(n, r, rad, fill, rot = 0) {
+  let s = "";
+  for (let i = 0; i < n; i++) { const a = (rot + i * 360 / n) * Math.PI / 180; s += `<circle cx="${50 + Math.sin(a) * r}" cy="${50 - Math.cos(a) * r}" r="${rad}" fill="${fill}"/>`; }
+  return s;
+}
+const RANGOLI = `<svg class="rangoli" viewBox="0 0 100 100" aria-hidden="true">
+  <circle cx="50" cy="50" r="46" fill="none" stroke="#ffffff22" stroke-width=".6" stroke-dasharray="1 2"/>
+  ${petals(16, 26, 16, 5, "#e8336f")}${petals(16, 26, 12, 3, "#ff8a1f", 11.25)}
+  ${petals(12, 15, 11, 4.5, "#ffc93c")}${petals(8, 6, 9, 4, "#1fb5a8", 22.5)}
+  ${dots(24, 43, 1.1, "#ffffffaa")}${dots(16, 24, 1.2, "#ffd27a", 11.25)}
+  <circle cx="50" cy="50" r="5" fill="#7b2cbf"/><circle cx="50" cy="50" r="2.4" fill="#ffd27a"/>
+</svg>`;
+const DIYA = `<svg viewBox="0 0 130 60" aria-hidden="true">
+  <defs><linearGradient id="clay" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#d9733a"/><stop offset="1" stop-color="#7a3214"/></linearGradient></defs>
+  <path d="M8 18 Q65 30 122 18 Q118 52 65 56 Q12 52 8 18z" fill="url(#clay)"/>
+  <path d="M8 18 Q65 30 122 18 Q65 10 8 18z" fill="#4a1d0a"/>
+  <path d="M20 30 Q65 42 110 30" fill="none" stroke="#ffd27a" stroke-width="2.5" stroke-dasharray="3 5"/>
+</svg>`;
+let lit = 0, current = -1;
+function buildBoard() {
+  const b = $("board"); b.innerHTML = RANGOLI; b.classList.remove("glow"); lit = 0;
+  $("count").textContent = "Ek ek karke jalao 🪔";
+  MEMORIES.forEach((m, i) => {
+    const a = (-90 + i * 72) * Math.PI / 180;
+    const d = document.createElement("button");
+    d.type = "button"; d.className = "diya"; d.dataset.i = i; d.setAttribute("aria-label", `Diya ${i + 1} jalao`);
+    d.style.left = `${50 + Math.cos(a) * 38}%`; d.style.top = `${50 + Math.sin(a) * 38}%`;
+    d.innerHTML = `<span class="halo"></span>${DIYA}<span class="flame"></span>`;
+    d.addEventListener("click", () => lightDiya(d, i));
+    b.appendChild(d);
+  });
+  const big = document.createElement("div");
+  big.className = "diya big"; big.id = "bigDiya"; big.style.left = "50%"; big.style.top = "52%";
+  big.innerHTML = `<span class="halo"></span>${DIYA}<span class="flame"></span>`;
+  b.appendChild(big);
+}
+function lightDiya(d, i) {
+  if (d.classList.contains("lit")) return;
+  d.classList.add("lit"); lit++; current = i; sfx("pop");
+  const r = d.getBoundingClientRect();
+  spark(r.left + r.width / 2, r.top + r.height * .2, reduce ? 8 : 40, { speed: 2.6, life: 26, g: .05 });
+  $("count").textContent = `${lit} / ${MEMORIES.length} diye jale ✨`;
+  track("roshni-diya", { n: lit });
+  setTimeout(() => {
+    $("memImg").src = MEMORIES[i].img; $("memText").textContent = MEMORIES[i].text;
+    $("memNext").textContent = lit === MEMORIES.length ? "Aakhri diya ✨" : "Aage ✨";
+    $("memory").classList.add("on");
+  }, 650);
+}
+$("memNext").addEventListener("click", () => {
+  $("memory").classList.remove("on");
+  if (lit < MEMORIES.length) return;
+  // All five lit: the centre diya catches, the rangoli glows, then the sky opens.
+  setTimeout(() => {
+    $("bigDiya").classList.add("lit"); $("board").classList.add("glow"); sfx("pop");
+    $("count").textContent = "Poora aangan roshan ✨";
+  }, 500);
+  setTimeout(finale, 2300);
+});
+
+function finale() {
+  show("s-finale"); finaleOn = true; $("bg").classList.add("on");
+  track("roshni-finale");
+  let n = 0;
+  clearInterval(autoShow);
+  launch(W * .25, H * .3); launch(W * .75, H * .26);
+  autoShow = setInterval(() => { launch(); launch(); if (Math.random() < .4) launch(); if (++n > 16) clearInterval(autoShow); }, 450);
+  setTimeout(() => $("letter").classList.add("on"), 4800);
+}
+$("s-finale").addEventListener("pointerdown", e => {
+  if (e.target.closest(".letter, .row, .made")) return;
+  launch(e.clientX, e.clientY);
+});
+document.addEventListener("pointerdown", e => {
+  if (finaleOn && (e.target === document.body || e.target.id === "sky" || e.target.id === "bg")) launch(e.clientX, e.clientY);
+});
+$("replay").addEventListener("click", () => {
+  finaleOn = false; clearInterval(autoShow); parts.length = 0; rockets.length = 0;
+  $("bg").classList.remove("on"); $("letter").classList.remove("on"); $("afterWrite").classList.remove("on");
+  show("s-intro");
+});
+
+addEventListener("resize", size);
+size(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -322,6 +322,31 @@ footer .brand { font-size: 24px; }
     </div>
   </section>
 
+  <section id="diwali">
+    <div class="wrap sample">
+      <div class="clip">
+        <video src="roshni/story.mp4" poster="roshni/poster.jpg" muted loop playsinline preload="none"></video>
+      </div>
+      <div>
+        <p class="tag">🪔 Naya · Diwali special</p>
+        <h2>Roshni Ka <em>Khat</em></h2>
+        <p class="sub">Is Diwali ghar nahi ja pa rahe? Maa-Papa ko ek link bhejo: phuljhadi unka naam likhti hai, har diya ek yaad kholta hai, aur aakhri diya jalte hi poora aasmaan pataakhon se bhar jaata hai.</p>
+        <ul class="gets">
+          <li>Phuljhadi se likha unka naam</li>
+          <li>5 diye, 5 yaadein (aapki photos)</li>
+          <li>Rangoli jo roshan ho jaaye</li>
+          <li>Tap karo, pataakhe phootein</li>
+          <li>Aapki apni chitthi</li>
+          <li>Insta / WhatsApp Story video</li>
+        </ul>
+        <div class="btns">
+          <a class="btn gold" href="roshni/" target="_blank" rel="noopener" data-umami-event="sample-open" data-umami-event-which="roshni">Sample kholo ↗</a>
+          <a class="btn ghost" href="#order" data-diwali data-umami-event="cta" data-umami-event-at="diwali">🪔 Diwali ke liye banwao</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="sample">
     <div class="wrap">
       <h2>Asli <em>surprises</em>, asli log</h2>
@@ -801,6 +826,7 @@ function newOrder() {
   $("wizard").scrollIntoView({ block: "start" });
 }
 $("again").addEventListener("click", newOrder);
+document.querySelectorAll("[data-diwali]").forEach(a => a.addEventListener("click", () => setOcc("diwali", false)));
 $("again2").addEventListener("click", newOrder);
 
 // Mobile: floating order button until the order section is on screen.
