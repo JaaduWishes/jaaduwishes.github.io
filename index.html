@@ -224,6 +224,15 @@ h2 em { font-family: var(--f-script); font-style: normal; color: var(--gold); fo
 .faq summary { cursor: pointer; font-weight: 600; font-size: 17px; }
 .faq details p { margin: 10px 0 0; color: var(--muted); }
 .foot-links { margin-top: 8px; }
+.reach { margin-top: 34px; text-align: center; }
+.reach p { margin: 0 0 12px; color: var(--muted); }
+.reach .btns { justify-content: center; }
+.paynow { text-align: center; margin: 18px 0 0; font-size: 15px; color: var(--muted); }
+.paynow a { color: var(--gold); font-weight: 700; }
+.wa-bubble { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 41; width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center; background: #25d366; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); transition: bottom .25s ease; }
+.wa-bubble svg { width: 30px; height: 30px; fill: #fff; }
+body.sticky-on .wa-bubble { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
 footer { padding-block: 30px 90px; text-align: center; color: var(--muted); font-size: 13px; }
 footer .brand { font-size: 24px; }
 
@@ -429,6 +438,13 @@ footer .brand { font-size: 24px; }
       <details><summary>Meri photos safe hain?</summary><p>Aapki photos aur voice note sirf aapka surprise banane ke liye use hoti hain. Kahin aur post nahi karte. <a href="privacy.html">Privacy</a></p></details>
       <details><summary>Kitne ka hai?</summary><p data-price-faq>Launch offer: sirf ₹199 (₹499 ki jagah). Magic link page aur 15 second ki story video, dono shaamil.</p></details>
       <details><summary>Payment kaise?</summary><p data-pay-faq>Preview pasand aane ke baad, UPI se. Pehle koi advance nahi.</p></details>
+      <div class="reach">
+        <p>Koi aur sawaal? Seedha baat karo 👇</p>
+        <div class="btns">
+          <a class="btn wa" data-wa-ask target="_blank" rel="noopener" data-umami-event="reach" data-umami-event-via="whatsapp">💬 WhatsApp pe poocho</a>
+          <a class="btn ghost" href="https://ig.me/m/jaaduwishes" target="_blank" rel="noopener" data-umami-event="reach" data-umami-event-via="instagram">📸 Instagram DM</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -509,10 +525,12 @@ footer .brand { font-size: 24px; }
         <p>Hum jaldi WhatsApp pe reply karenge. Jaadu shuru!</p>
         <button class="link-btn" id="again2" type="button">↺ Naya order</button>
       </div>
+      <p class="paynow" data-checkout hidden>Preview mil gaya aur pasand aaya? <a data-checkout-link target="_blank" rel="noopener" data-umami-event="checkout-open">💳 Yahin se pay karo (UPI / card)</a></p>
     </div>
   </section>
 </main>
 
+<a class="wa-bubble" data-wa-ask target="_blank" rel="noopener" aria-label="WhatsApp pe baat karo" data-umami-event="reach" data-umami-event-via="bubble"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3 1 2.5c.1.2 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg></a>
 <div class="sticky" id="sticky"><a class="btn gold" href="#order" data-umami-event="cta" data-umami-event-at="sticky">🎙️ Bolo aur banwao</a></div>
 
 <footer>
@@ -536,6 +554,8 @@ const ABROAD = !!TZ && !/^Asia\/(Kolkata|Calcutta)$/.test(TZ);
 const REF = (() => { try { const q = new URLSearchParams(location.search); return q.get("utm_source") === "surprise" ? (q.get("utm_medium") || "surprise") : ""; } catch { return ""; } })();
 const OFFER_REF = { label: "Aapke liye", price: "₹149", was: "₹199", note: "₹50 off, surprise dekh ke aaye ho 💛" };
 const OFFER = ABROAD ? OFFER_ABROAD : REF ? OFFER_REF : OFFER_IN;
+// Online checkout (e.g. a Razorpay Payment Page URL); empty = hidden, customers pay by UPI in WhatsApp.
+const CHECKOUT = { india: "", abroad: "" };
 // Seasonal order cutoff shown in the top bar; the bar hides once it has passed.
 const DEADLINE = { at: "2026-11-06T23:59:00+05:30", label: "🪔 Diwali orders 6 Nov tak" };
 // Meta Pixel ID from Events Manager; empty = no tracking.
@@ -550,6 +570,12 @@ const UMAMI_ID = "f2a1fdd7-074e-4d85-a4a5-84145baae07b";
     bar.innerHTML = `${DEADLINE.label} · <b>${left === 1 ? "aaj aakhri din" : `${left} din bache`}</b> · <a href="#order" data-diwali>banwao →</a>`;
     bar.hidden = false;
   }
+}
+{
+  const ask = `https://wa.me/${ORDER_WA}?text=${encodeURIComponent("Hi Jaadu Wishes! ✨ Mujhe ek surprise ke baare mein poochna hai:")}`;
+  document.querySelectorAll("[data-wa-ask]").forEach(a => { a.href = ask; });
+  const pay = ABROAD ? CHECKOUT.abroad : CHECKOUT.india;
+  if (pay) document.querySelectorAll("[data-checkout]").forEach(el => { el.querySelector("[data-checkout-link]").href = pay; el.hidden = false; });
 }
 document.querySelectorAll("[data-song-price]").forEach(el => { el.textContent = ABROAD ? SONG.abroad : SONG.in; });
 if (OFFER.price) document.querySelectorAll("[data-price-faq]").forEach(el => {
@@ -873,6 +899,7 @@ const sticky = $("sticky");
 addEventListener("scroll", () => {
   const r = $("order").getBoundingClientRect();
   sticky.classList.toggle("show", scrollY > 300 && r.top > innerHeight);
+  document.body.classList.toggle("sticky-on", sticky.classList.contains("show") && innerWidth <= 820);
 }, { passive: true });
 
 // Funnel: the order form came on screen.
