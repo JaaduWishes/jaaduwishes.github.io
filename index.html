@@ -427,8 +427,8 @@ footer .brand { font-size: 24px; }
       <details><summary>Kitna time lagta hai?</summary><p>Same day. Sham tak order karo, raat tak preview mil jayega. Hum WhatsApp pe exact time confirm kar denge.</p></details>
       <details><summary>Kya changes karwa sakte hain?</summary><p>Haan. Pehle aapko free preview bhejenge, jo badalna ho bata dena. Final tabhi jab aapko pasand aaye.</p></details>
       <details><summary>Meri photos safe hain?</summary><p>Aapki photos aur voice note sirf aapka surprise banane ke liye use hoti hain. Kahin aur post nahi karte. <a href="privacy.html">Privacy</a></p></details>
-      <details><summary>Kitne ka hai?</summary><p>Launch offer: sirf ₹199 (₹499 ki jagah). Magic link page aur 15 second ki story video, dono shaamil.</p></details>
-      <details><summary>Payment kaise?</summary><p>Preview pasand aane ke baad, UPI se. Pehle koi advance nahi.</p></details>
+      <details><summary>Kitne ka hai?</summary><p data-price-faq>Launch offer: sirf ₹199 (₹499 ki jagah). Magic link page aur 15 second ki story video, dono shaamil.</p></details>
+      <details><summary>Payment kaise?</summary><p data-pay-faq>Preview pasand aane ke baad, UPI se. Pehle koi advance nahi.</p></details>
     </div>
   </section>
 
@@ -525,7 +525,12 @@ footer .brand { font-size: 24px; }
 // Orders go to this WhatsApp number (country code, digits only).
 const ORDER_WA = "917300281228";
 // Launch offer shown in the hero and order form; leave price empty to hide it.
-const OFFER = { label: "Launch offer", price: "₹199", was: "₹499", note: "same day delivery" };
+const OFFER_IN = { label: "Launch offer", price: "₹199", was: "₹499", note: "same day delivery" };
+// Shown instead when the visitor's phone is set to a timezone outside India.
+const OFFER_ABROAD = { label: "Launch offer", price: "$9", was: "$19", note: "same day delivery" };
+const TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { return ""; } })();
+const ABROAD = !!TZ && !/^Asia\/(Kolkata|Calcutta)$/.test(TZ);
+const OFFER = ABROAD ? OFFER_ABROAD : OFFER_IN;
 // Seasonal order cutoff shown in the top bar; the bar hides once it has passed.
 const DEADLINE = { at: "2026-11-06T23:59:00+05:30", label: "🪔 Diwali orders 6 Nov tak" };
 // Meta Pixel ID from Events Manager; empty = no tracking.
@@ -541,6 +546,12 @@ const UMAMI_ID = "f2a1fdd7-074e-4d85-a4a5-84145baae07b";
     bar.hidden = false;
   }
 }
+if (OFFER.price) document.querySelectorAll("[data-price-faq]").forEach(el => {
+  el.textContent = `Launch offer: sirf ${OFFER.price} (${OFFER.was} ki jagah). Magic link page aur 15 second ki story video, dono shaamil.`;
+});
+if (ABROAD) document.querySelectorAll("[data-pay-faq]").forEach(el => {
+  el.textContent = "Preview pasand aane ke baad. India ke bahar se ho toh payment ka tareeka (UPI ya international link) WhatsApp pe bata denge.";
+});
 if (OFFER.price) document.querySelectorAll("[data-offer]").forEach(el => {
   el.innerHTML = `🎁 ${OFFER.label}: <b>${OFFER.price}</b>${OFFER.was ? ` <s>${OFFER.was}</s>` : ""}${OFFER.note ? ` · ${OFFER.note}` : ""}`;
   el.hidden = false;
@@ -789,6 +800,7 @@ function orderText() {
     `Mera naam: ${$("from").value.trim()}`,
     `Kab tak: ${when}`,
   ];
+  if (ABROAD) lines.push(`Main India ke bahar se hoon (${TZ}) · ${OFFER.price} offer`);
   if (voice) lines.push(`Voice note: ${fmt(voiceSecs)} (agle message mein bhej raha/rahi hoon)`);
   if (pics.length) lines.push(`Photos/videos: ${pics.length} (agle message mein)`);
   if ($("songAddon").getAttribute("aria-pressed") === "true") lines.push("Add-on: 🎵 apna gaana bhi chahiye");
