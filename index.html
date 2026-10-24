@@ -409,7 +409,7 @@ footer .brand { font-size: 24px; }
         <button class="disc" id="disc" type="button" aria-label="Play the song sample"><img src="media/disc.jpg" alt=""></button>
         <div>
           <h3>Aapke shabd, aapka gaana</h3>
-          <p>Apni chitthi ya shayari bhejo, hum use ek gaane mein badal dete hain, unke naam ke saath. Surprise ke andar bajta hai, aur Story video mein bhi.</p>
+          <p>Apni chitthi ya shayari bhejo, hum use ek gaane mein badal dete hain, unke naam ke saath. Surprise ke andar bajta hai, aur Story video mein bhi. Add-on: <b data-song-price>₹750</b>.</p>
           <p class="lyric">“The journey of life is now a new beginning,<br>with your hand in mine, it feels like winning…”<br><small style="color:var(--muted)">— Rahul ki chitthi, Priya ke liye gaana ▶︎</small></p>
         </div>
       </div>
@@ -422,7 +422,7 @@ footer .brand { font-size: 24px; }
       <h2>Aksar <em>pooche</em> jaane wale sawaal</h2>
       <details><summary>Mujhe kya bhejna hoga?</summary><p>Bas mauka, unka naam, aur ek voice note ki aap kya feel chahte ho. Photos ya video ho to aur bhi achha. Sab isi page se, ya seedha WhatsApp pe.</p></details>
       <details><summary>Unhe kya milega?</summary><p>Ek magical link jo kisi bhi phone pe khulta hai (koi app nahi chahiye), aur ek 15 second ki video jo Instagram ya WhatsApp Story pe lag sakti hai. Chaho to apna gaana bhi.</p></details>
-      <details><summary>Kya apna gaana bhi ban sakta hai?</summary><p>Haan! Aapki chitthi ya shayari ko hum ek gaane mein badal dete hain, unke naam ke saath, jaise Rahul ki chitthi Priya ke liye gaana ban gayi. Ye add-on hai; price WhatsApp pe bata denge.</p></details>
+      <details><summary>Kya apna gaana bhi ban sakta hai?</summary><p>Haan! Aapki chitthi ya shayari ko hum ek gaane mein badal dete hain, unke naam ke saath, jaise Rahul ki chitthi Priya ke liye gaana ban gayi. Ye add-on hai: <span data-song-price>₹750</span>.</p></details>
       <details><summary>Diwali tak mil jayega?</summary><p>Haan, agar 6 November raat tak order kar do. Har surprise haath se banta hai, isliye Diwali ke aakhri dino mein jaldi order karna better hai.</p></details>
       <details><summary>Kitna time lagta hai?</summary><p>Same day. Sham tak order karo, raat tak preview mil jayega. Hum WhatsApp pe exact time confirm kar denge.</p></details>
       <details><summary>Kya changes karwa sakte hain?</summary><p>Haan. Pehle aapko free preview bhejenge, jo badalna ho bata dena. Final tabhi jab aapko pasand aaye.</p></details>
@@ -489,7 +489,7 @@ footer .brand { font-size: 24px; }
         </div>
 
         <div class="q">
-          <button class="addon" id="songAddon" type="button" aria-pressed="false">🎵 Apna gaana bhi chahiye <small style="color:var(--muted)">(add-on)</small></button>
+          <button class="addon" id="songAddon" type="button" aria-pressed="false">🎵 Apna gaana bhi chahiye <small style="color:var(--muted)">(+<span data-song-price>₹750</span>)</small></button>
         </div>
 
         <button class="btn wa" id="send" type="button">💬 WhatsApp pe bhejo</button>
@@ -526,6 +526,8 @@ footer .brand { font-size: 24px; }
 const ORDER_WA = "917300281228";
 // Launch offer shown in the hero and order form; leave price empty to hide it.
 const OFFER_IN = { label: "Launch offer", price: "₹199", was: "₹499", note: "same day delivery" };
+// Song add-on price, in India and abroad.
+const SONG = { in: "₹750", abroad: "$9" };
 // Shown instead when the visitor's phone is set to a timezone outside India.
 const OFFER_ABROAD = { label: "Launch offer", price: "$9", was: "$19", note: "same day delivery" };
 const TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { return ""; } })();
@@ -549,6 +551,7 @@ const UMAMI_ID = "f2a1fdd7-074e-4d85-a4a5-84145baae07b";
     bar.hidden = false;
   }
 }
+document.querySelectorAll("[data-song-price]").forEach(el => { el.textContent = ABROAD ? SONG.abroad : SONG.in; });
 if (OFFER.price) document.querySelectorAll("[data-price-faq]").forEach(el => {
   el.textContent = `${OFFER.label}: sirf ${OFFER.price} (${OFFER.was} ki jagah). Magic link page aur 15 second ki story video, dono shaamil.`;
 });
@@ -807,7 +810,7 @@ function orderText() {
   else if (REF) lines.push(`Referral: ${REF} ka surprise dekh ke aaya/aayi · ₹50 off (${OFFER.price})`);
   if (voice) lines.push(`Voice note: ${fmt(voiceSecs)} (agle message mein bhej raha/rahi hoon)`);
   if (pics.length) lines.push(`Photos/videos: ${pics.length} (agle message mein)`);
-  if ($("songAddon").getAttribute("aria-pressed") === "true") lines.push("Add-on: 🎵 apna gaana bhi chahiye");
+  if ($("songAddon").getAttribute("aria-pressed") === "true") lines.push(`Add-on: 🎵 apna gaana bhi chahiye (+${ABROAD ? SONG.abroad : SONG.in})`);
   const typed = $("typed").value.trim();
   if (typed) lines.push("", typed);
   return lines.join("\n");
