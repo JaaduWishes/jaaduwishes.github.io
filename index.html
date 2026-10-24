@@ -211,6 +211,12 @@ h2 em { font-family: var(--f-script); font-style: normal; color: var(--gold); fo
 .ig { color: var(--ink); display: grid; place-items: center; }
 .offer { display: inline-block; margin: 0 0 22px; padding: 8px 16px; border-radius: 14px; background: rgba(255, 158, 199, .14); border: 1px solid rgba(255, 158, 199, .45); font-size: 16px; }
 .offer s { color: var(--muted); }
+.deadline { position: relative; z-index: 3; text-align: center; font-size: 14px; padding: 8px 14px; color: #2a1606;
+  background: linear-gradient(90deg, #ffd98a, #f3b45a); }
+.deadline a { color: inherit; font-weight: 700; }
+.risk { margin: 14px 0 0; font-size: 15px; color: var(--ink); }
+.risk b { color: var(--gold); }
+.risk.center { text-align: center; margin: -14px 0 26px; }
 .offer b { color: var(--gold); font-size: 1.15em; }
 .offer.center { display: block; width: fit-content; margin: -18px auto 28px; text-align: center; }
 .faq { max-width: 680px; }
@@ -246,6 +252,7 @@ footer .brand { font-size: 24px; }
 <canvas id="sky"></canvas>
 <canvas id="fx"></canvas>
 
+<div class="deadline" id="deadline" hidden></div>
 <header>
   <div class="wrap">
     <a class="brand" href="#">Jaadu Wishes</a>
@@ -256,14 +263,15 @@ footer .brand { font-size: 24px; }
 <main>
   <div class="wrap hero">
     <div>
-      <p class="kicker">birthday, anniversary, propose, ya bas “sorry”…</p>
+      <p class="kicker">Diwali, birthday, anniversary, propose, ya bas “sorry”…</p>
       <h1>Bas bolo.<br>Hum <em>jaadu</em> bana denge.</h1>
       <p class="lede">Yahin website pe ek voice note mein dil ki baat bolo, photos daalo, aur bhej do. Hum bana denge ek magical surprise: tap karo, gubbare phootein, aur unka naam chamke. Chaho to aapke shabdon pe <b>apna gaana</b> bhi.</p>
       <p class="offer" data-offer hidden></p>
       <div class="btns">
         <a class="btn gold" href="#order" data-umami-event="cta" data-umami-event-at="hero">🎙️ Bolo aur banwao</a>
-        <a class="btn ghost" href="#sample">Asli surprises dekho</a>
+        <a class="btn ghost" href="#diwali">🪔 Diwali special dekho</a>
       </div>
+      <p class="risk">✅ Pehle <b>free preview</b>. Pasand aaye, tab hi pay karo.</p>
       <p class="trust">Hindi · English · Hinglish · sirf phone chahiye · 2 minute</p>
     </div>
 
@@ -315,7 +323,7 @@ footer .brand { font-size: 24px; }
         <div class="step">
           <div class="n">3</div>
           <h3>Jaadu ready</h3>
-          <p>WhatsApp pe milega ek magical link + 15 sec ki Story video, unke naam aur tumhare shabdon ke saath.</p>
+          <p>WhatsApp pe pehle free preview. Pasand aaye toh pay karo, aur milega magical link + 15 sec ki Story video, unke naam aur tumhare shabdon ke saath.</p>
           <div class="chips"><span class="chip">magic link</span><span class="chip">story video</span><span class="chip">gaana</span><span class="chip">chitthi</span></div>
         </div>
       </div>
@@ -415,11 +423,12 @@ footer .brand { font-size: 24px; }
       <details><summary>Mujhe kya bhejna hoga?</summary><p>Bas mauka, unka naam, aur ek voice note ki aap kya feel chahte ho. Photos ya video ho to aur bhi achha. Sab isi page se, ya seedha WhatsApp pe.</p></details>
       <details><summary>Unhe kya milega?</summary><p>Ek magical link jo kisi bhi phone pe khulta hai (koi app nahi chahiye), aur ek 15 second ki video jo Instagram ya WhatsApp Story pe lag sakti hai. Chaho to apna gaana bhi.</p></details>
       <details><summary>Kya apna gaana bhi ban sakta hai?</summary><p>Haan! Aapki chitthi ya shayari ko hum ek gaane mein badal dete hain, unke naam ke saath, jaise Rahul ki chitthi Priya ke liye gaana ban gayi. Ye add-on hai; price WhatsApp pe bata denge.</p></details>
-      <details><summary>Kitna time lagta hai?</summary><p>Same day. Payment ke baad usi din aapka surprise ready. Sham tak order karo, raat tak mil jayega. Hum WhatsApp pe exact time confirm kar denge.</p></details>
-      <details><summary>Kya changes karwa sakte hain?</summary><p>Haan. Pehle aapko preview bhejenge, jo badalna ho bata dena.</p></details>
+      <details><summary>Diwali tak mil jayega?</summary><p>Haan, agar 6 November raat tak order kar do. Har surprise haath se banta hai, isliye Diwali ke aakhri dino mein jaldi order karna better hai.</p></details>
+      <details><summary>Kitna time lagta hai?</summary><p>Same day. Sham tak order karo, raat tak preview mil jayega. Hum WhatsApp pe exact time confirm kar denge.</p></details>
+      <details><summary>Kya changes karwa sakte hain?</summary><p>Haan. Pehle aapko free preview bhejenge, jo badalna ho bata dena. Final tabhi jab aapko pasand aaye.</p></details>
       <details><summary>Meri photos safe hain?</summary><p>Aapki photos aur voice note sirf aapka surprise banane ke liye use hoti hain. Kahin aur post nahi karte. <a href="privacy.html">Privacy</a></p></details>
       <details><summary>Kitne ka hai?</summary><p>Launch offer: sirf ₹199 (₹499 ki jagah). Magic link page aur 15 second ki story video, dono shaamil.</p></details>
-      <details><summary>Payment kaise?</summary><p>UPI se. Details WhatsApp pe milengi.</p></details>
+      <details><summary>Payment kaise?</summary><p>Preview pasand aane ke baad, UPI se. Pehle koi advance nahi.</p></details>
     </div>
   </section>
 
@@ -428,6 +437,7 @@ footer .brand { font-size: 24px; }
       <h2>Apna <em>jaadu</em> banwao</h2>
       <p class="sub">Teen chhote kadam. Baaki hum sambhaal lenge.</p>
       <p class="offer center" data-offer hidden></p>
+      <p class="risk center">✅ Pehle <b>free preview</b> WhatsApp pe · pasand aaye tab UPI se pay</p>
 
       <div class="order" id="wizard">
         <div class="q">
@@ -516,11 +526,21 @@ footer .brand { font-size: 24px; }
 const ORDER_WA = "917300281228";
 // Launch offer shown in the hero and order form; leave price empty to hide it.
 const OFFER = { label: "Launch offer", price: "₹199", was: "₹499", note: "same day delivery" };
+// Seasonal order cutoff shown in the top bar; the bar hides once it has passed.
+const DEADLINE = { at: "2026-11-06T23:59:00+05:30", label: "🪔 Diwali orders 6 Nov tak" };
 // Meta Pixel ID from Events Manager; empty = no tracking.
 const PIXEL_ID = "";
 // Umami Cloud website ID (cloud.umami.is → Settings → Websites); empty = no analytics.
 const UMAMI_ID = "f2a1fdd7-074e-4d85-a4a5-84145baae07b";
 
+{
+  const left = Math.ceil((new Date(DEADLINE.at) - Date.now()) / 864e5);
+  const bar = document.getElementById("deadline");
+  if (left > 0) {
+    bar.innerHTML = `${DEADLINE.label} · <b>${left === 1 ? "aaj aakhri din" : `${left} din bache`}</b> · <a href="#order" data-diwali>banwao →</a>`;
+    bar.hidden = false;
+  }
+}
 if (OFFER.price) document.querySelectorAll("[data-offer]").forEach(el => {
   el.innerHTML = `🎁 ${OFFER.label}: <b>${OFFER.price}</b>${OFFER.was ? ` <s>${OFFER.was}</s>` : ""}${OFFER.note ? ` · ${OFFER.note}` : ""}`;
   el.hidden = false;
