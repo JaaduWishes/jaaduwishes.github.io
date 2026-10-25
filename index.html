@@ -364,6 +364,31 @@ footer .brand { font-size: 24px; }
     </div>
   </section>
 
+  <section id="jaadu">
+    <div class="wrap sample">
+      <div class="clip">
+        <video src="chitthi/story.mp4" poster="chitthi/poster.jpg" muted loop playsinline preload="none"></video>
+      </div>
+      <div>
+        <p class="tag">🦉 Naya · Jaadui duniya</p>
+        <h2>Jaadui <em>Chitthi</em></h2>
+        <p class="sub">Birthday pe ek ullu unki khidki pe chitthi laata hai. Mohar todte hi jaadu ki akademi ka admission letter khud likhne lagta hai, wand se mombattiyaan jalti hain, aur aakhir mein qile ke upar unka naam chamakta hai.</p>
+        <ul class="gets">
+          <li>Ullu wali chitthi, unke naam ki mohar</li>
+          <li>Wand se jalti mombattiyaan, har saal ki ek</li>
+          <li>5 jaadui tasveerein (aapki photos)</li>
+          <li>Hasi, himmat, pyaar ka potion</li>
+          <li>Qile pe naam, pataakhe aur aapki chitthi</li>
+          <li>Insta / WhatsApp Story video</li>
+        </ul>
+        <div class="btns">
+          <a class="btn gold" href="chitthi/" target="_blank" rel="noopener" data-umami-event="sample-open" data-umami-event-which="chitthi">Sample kholo ↗</a>
+          <a class="btn ghost" href="#order" data-pick-occ="birthday" data-umami-event="cta" data-umami-event-at="chitthi">🦉 Birthday ke liye banwao</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="sample">
     <div class="wrap">
       <h2>Asli <em>surprises</em>, asli log</h2>
@@ -892,6 +917,7 @@ function newOrder() {
 }
 $("again").addEventListener("click", newOrder);
 document.querySelectorAll("[data-diwali]").forEach(a => a.addEventListener("click", () => setOcc("diwali", false)));
+document.querySelectorAll("[data-pick-occ]").forEach(a => a.addEventListener("click", () => setOcc(a.dataset.pickOcc, false)));
 $("again2").addEventListener("click", newOrder);
 
 // Mobile: floating order button until the order section is on screen.
